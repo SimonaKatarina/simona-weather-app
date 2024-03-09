@@ -22,6 +22,8 @@ function refreshWeather(response){
     windSpeedElement.innerHTML = `${response.data.wind.speed}km/h`;
     timeElement.innerHTML = formatDate(date);
     temperatureElement.innerHTML = Math.round(temperature);
+
+    getForecast(response.data.city);
 }
 
 function formatDate(date) {
@@ -51,11 +53,19 @@ function handleSearchSubmit(event){
     searchCity(searchInput.value);
 }
 
+function getForecast(city) {
+    let apiKey = "bfoaa9tbb9f25fdb436074c0df5a4b84";
+    let apiUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+    axios(apiUrl).then(displayForecast);
+}
+
+
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
 
-function displayForecast() {
+function displayForecast(response) {
+    console.log(response.data);
  let days = ["Tue", "Wed", "Thu", "Fri", "Sat"];
  let forecastHtml ="";
 
@@ -81,4 +91,5 @@ forecastElement.innerHTML = forecastHtml;
 }
 
     searchCity("Papendrecht");
-    displayForecast();
+    
+    
